@@ -28,15 +28,15 @@ macro(build_open_blas install_prefix staging_prefix)
 
 
 ExternalProject_Add(OpenBLAS
-        URL "http://github.com/xianyi/OpenBLAS/archive/v0.2.15.tar.gz"
-        URL_MD5 "b1190f3d3471685f17cfd1ec1d252ac9"
+        URL "http://github.com/xianyi/OpenBLAS/archive/v0.2.18.tar.gz"
+        URL_MD5 "805e7f660877d588ea7e3792cda2ee65"
         SOURCE_DIR OpenBLAS
         BUILD_IN_SOURCE 1
         #BINARY_DIR OpenBLAS-build
         INSTALL_DIR     "${CMAKE_BINARY_DIR}/external"
-        BUILD_COMMAND      $(MAKE) 
-        CONFIGURE_COMMAND  $(MAKE) PREFIX=${install_prefix} USE_THREAD=0
-        INSTALL_COMMAND    $(MAKE) DESTDIR=${CMAKE_BINARY_DIR}/external install PREFIX=${install_prefix} USE_THREAD=0
+        BUILD_COMMAND      $(MAKE) PREFIX=${install_prefix} USE_THREAD=0 USE_OPENMP=0 CC=${CMAKE_C_COMPILER} FC=${CMAKE_Fortran_COMPILER}
+        CONFIGURE_COMMAND  $(MAKE) PREFIX=${install_prefix} USE_THREAD=0 USE_OPENMP=0 CC=${CMAKE_C_COMPILER} FC=${CMAKE_Fortran_COMPILER}
+        INSTALL_COMMAND    $(MAKE) DESTDIR=${CMAKE_BINARY_DIR}/external install PREFIX=${install_prefix}
       )
 
 SET(OpenBLAS_INCLUDE_DIRS ${staging_prefix}/${install_prefix}/include )

@@ -1,6 +1,7 @@
-project(add-lib)
+project(add-lib C CXX Fortran)
 enable_language(C)
 enable_language(CXX)
+enable_language(Fortran)
 
 cmake_minimum_required(VERSION 3.1)
 
