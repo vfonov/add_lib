@@ -34,13 +34,14 @@ ExternalProject_Add(OpenBLAS
         BUILD_IN_SOURCE 1
         #BINARY_DIR OpenBLAS-build
         INSTALL_DIR     "${CMAKE_BINARY_DIR}/external"
-        BUILD_COMMAND      $(MAKE) 
-        CONFIGURE_COMMAND  $(MAKE) PREFIX=${install_prefix} USE_THREAD=0
-        INSTALL_COMMAND    $(MAKE) DESTDIR=${CMAKE_BINARY_DIR}/external install PREFIX=${install_prefix} USE_THREAD=0
+        BUILD_COMMAND   $(MAKE) USE_THREAD=0 PREFIX=${install_prefix}
+        #CONFIGURE_COMMAND  $(MAKE) PREFIX=${install_prefix} USE_THREAD=0
+        CONFIGURE_COMMAND ""
+        INSTALL_COMMAND    $(MAKE) install PREFIX=${install_prefix} DESTDIR=${CMAKE_BINARY_DIR}/external USE_THREAD=0
       )
 
 SET(OpenBLAS_INCLUDE_DIRS ${staging_prefix}/${install_prefix}/include )
-SET(OpenBLAS_LIBRARIES  ${staging_prefix}/${install_prefix}/lib${LIB_SUFFIX}/libopenblas.so )
+SET(OpenBLAS_LIBRARIES    ${staging_prefix}/${install_prefix}/lib${LIB_SUFFIX}/libopenblas.a gfortran )
 SET(OpenBLAS_FOUND ON)
 
 endmacro(build_open_blas)

@@ -102,6 +102,13 @@ build_BOOST(${CMAKE_INSTALL_PREFIX} ${SUPERBUILD_STAGING_PREFIX})
 INCLUDE(BuildOpenBLAS)
 build_open_blas(${CMAKE_INSTALL_PREFIX} ${SUPERBUILD_STAGING_PREFIX})
 
+INCLUDE(BuildArmadillo)
+build_armadillo(${CMAKE_INSTALL_PREFIX} ${SUPERBUILD_STAGING_PREFIX})
+ADD_DEPENDENCIES(ARMADILLO OpenBLAS)
+
+INCLUDE(BuildMLPACK)
+build_mlpack(${CMAKE_INSTALL_PREFIX} ${SUPERBUILD_STAGING_PREFIX})
+ADD_DEPENDENCIES(MLPACK ARMADILLO BOOST)
 
 
 # setup additional variables for making Debian package
@@ -109,7 +116,6 @@ INCLUDE(DebianPackageAddons)
 
 # setup additional variables for making RPM package
 INCLUDE(RPMPackageAddons)
-
 
 # according to http://www.cmake.org/pipermail/cmake/2011-November/047137.html it's better to put this in the end
 INCLUDE(CPack)
