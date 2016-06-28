@@ -31,15 +31,17 @@ macro(build_mlpack install_prefix staging_prefix  )
   SET(EXT_CMAKE_SHARED_LINKER_FLAGS ${CMAKE_SHARED_LINKER_FLAGS})
   
   message("BOOST_DIR=${BOOST_DIR}")
+  message("OpenBLAS_LIBRARY=${OpenBLAS_LIBRARY}")
   
 ExternalProject_Add(MLPACK
-  URL "http://mlpack.org/files/mlpack-2.0.1.tar.gz"
-  URL_MD5 "48637eb6cc1bd10cf76de2fa0ac82644"
+  URL "http://www.mlpack.org/files/mlpack-2.0.2.tar.gz"
+  URL_MD5 "1f4dec7228954309f99363c76e6e0cfe"
   SOURCE_DIR MLPACK
   BINARY_DIR MLPACK-build
   CMAKE_GENERATOR ${CMAKE_GEN}
   CMAKE_ARGS
       -DBUILD_TESTING:BOOL=ON #${BUILD_TESTING}
+      -DBUILD_CLI_EXECUTABLES:BOOL=OFF
       -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
       -DBUILD_SHARED_LIBS:BOOL=OFF
       -DCMAKE_SKIP_RPATH:BOOL=OFF

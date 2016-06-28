@@ -11,8 +11,7 @@ macro(build_open_blas install_prefix staging_prefix)
   SET(EXT_CMAKE_CXX_FLAGS "-fPIC ${CMAKE_CXX_FLAGS}")
   SET(EXT_CMAKE_C_FLAGS   "-fPIC ${CMAKE_C_FLAGS}")
 
-
-ExternalProject_Add(OpenBLAS
+  ExternalProject_Add(OpenBLAS
         URL "http://github.com/xianyi/OpenBLAS/archive/v0.2.18.tar.gz"
         URL_MD5 "805e7f660877d588ea7e3792cda2ee65"
         SOURCE_DIR OpenBLAS
@@ -23,10 +22,13 @@ ExternalProject_Add(OpenBLAS
         CONFIGURE_COMMAND  $(MAKE) PREFIX=${install_prefix} USE_THREAD=0 USE_OPENMP=0 CC=${CMAKE_C_COMPILER} FC=${CMAKE_Fortran_COMPILER}
         INSTALL_COMMAND    $(MAKE) DESTDIR=${CMAKE_BINARY_DIR}/external install PREFIX=${install_prefix}
       )
-
-SET(OpenBLAS_INCLUDE_DIRS ${staging_prefix}/${install_prefix}/include )
-SET(OpenBLAS_LIBRARIES    ${staging_prefix}/${install_prefix}/lib${LIB_SUFFIX}/libopenblas.a gfortran )
-SET(OpenBLAS_FOUND ON)
+  
+  # a hack to find full path to gfortran library
+  
+  #find_library( GFORTRAN_LIBRARY NAMES gfortran )
+  SET(OpenBLAS_INCLUDE_DIRS ${staging_prefix}/${install_prefix}/include )
+  SET(OpenBLAS_LIBRARY    ${staging_prefix}/${install_prefix}/lib${LIB_SUFFIX}/libopenblas.so  ) # ${GFORTRAN_LIBRARY}
+  SET(OpenBLAS_FOUND ON)
 
 endmacro(build_open_blas)
   
