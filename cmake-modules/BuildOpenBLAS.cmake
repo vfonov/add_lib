@@ -11,6 +11,12 @@ macro(build_open_blas install_prefix staging_prefix)
   SET(EXT_CMAKE_CXX_FLAGS "-fPIC ${CMAKE_CXX_FLAGS}")
   SET(EXT_CMAKE_C_FLAGS   "-fPIC ${CMAKE_C_FLAGS}")
 
+  
+  
+  if(NOT CMAKE_Fortran_COMPILER)
+    message("Fortran compiler not found! OpenBLAS will not work as expected!")
+  endif(NOT CMAKE_Fortran_COMPILER)
+  
   ExternalProject_Add(OpenBLAS
         URL "http://github.com/xianyi/OpenBLAS/archive/v0.2.18.tar.gz"
         URL_MD5 "805e7f660877d588ea7e3792cda2ee65"
@@ -18,8 +24,8 @@ macro(build_open_blas install_prefix staging_prefix)
         BUILD_IN_SOURCE 1
         #BINARY_DIR OpenBLAS-build
         INSTALL_DIR       "${CMAKE_BINARY_DIR}/external"
-        BUILD_COMMAND      $(MAKE) PREFIX=${install_prefix} USE_THREAD=0 USE_OPENMP=0 CC=${CMAKE_C_COMPILER} FC=${CMAKE_Fortran_COMPILER}
-        CONFIGURE_COMMAND  $(MAKE) PREFIX=${install_prefix} USE_THREAD=0 USE_OPENMP=0 CC=${CMAKE_C_COMPILER} FC=${CMAKE_Fortran_COMPILER}
+        BUILD_COMMAND      $(MAKE) PREFIX=${install_prefix} USE_THREAD=0 USE_OPENMP=0 CC=${CMAKE_C_COMPILER} FC=${CMAKE_Fortran_COMPILER} MAKE_NB_JOBS=1
+        CONFIGURE_COMMAND  $(MAKE) PREFIX=${install_prefix} USE_THREAD=0 USE_OPENMP=0 CC=${CMAKE_C_COMPILER} FC=${CMAKE_Fortran_COMPILER} MAKE_NB_JOBS=1
         INSTALL_COMMAND    $(MAKE) DESTDIR=${CMAKE_BINARY_DIR}/external install PREFIX=${install_prefix}
       )
   
